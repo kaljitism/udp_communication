@@ -1,22 +1,22 @@
 const dgram = require('dgram');
 
-const sender = dgram.createSocket('udp4');
+const senderSocket = dgram.createSocket('udp4');
 
-sender.send("Hello Receiver!", 8000, '127.0.0.1', (error, bytes) => {
+senderSocket.send("Hello Receiver!", 8000, '127.0.0.1', (error, bytes) => {
   if (error) console.log(error);
   console.log(`bytes sent ${bytes}`);
 });
 
-sender.on('message', (message, remoteInfo) => {
+senderSocket.on('message', (message, remoteInfo) => {
   console.log(
       `${message} --- received from ${remoteInfo.address}:${remoteInfo.port}`);
-  sender.send("Hello Receiver!", 8000, '127.0.0.1');
+  // senderSocket.send("Hello Receiver!", 8000, '127.0.0.1');
 });
 
-sender.on('error', error => {
+senderSocket.on('error', error => {
   console.log(`Sender socket error: ${error.message}\n${error.stack}`);
 });
 
-sender.on('close', () => {
+senderSocket.on('close', () => {
   console.log('Sender socket closed');
 });
